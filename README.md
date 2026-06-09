@@ -1,5 +1,12 @@
 # shadcn-designer
 
+<div align="center">
+<kbd>
+   <img src="static/screenshot_20260610_021927.png" width="640">
+</kbd>
+</div>
+
+\
 A **design-system storybook** built as a codebase template. Drop in your
 reference designs, build full-page UI blocks with [shadcn/ui] components, and
 preview them side-by-side in a live Next.js viewer—all inside a single monorepo.
