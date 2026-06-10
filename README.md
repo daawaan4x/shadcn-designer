@@ -57,6 +57,7 @@ tool, it's a forkable codebase that integrates directly with shadcn.
 │           ├── block-viewer/   # Sidebar, toolbar, iframe preview
 │           └── theme-provider.tsx
 ├── packages/
+│   ├── css2tw/                 # Tailwind conversion & regression testing tools
 │   ├── ui/                     # shadcn/ui components (@workspace/ui)
 │   ├── eslint-config/          # Shared ESLint config
 │   └── typescript-config/      # Shared TypeScript config
@@ -129,10 +130,11 @@ Everything in `design/` is git-ignored by default. See
 
 1. Place your design references in `design/`.
 2. Open the prototype HTML files in a browser to see the target UI.
-3. Build blocks under `apps/web/app/blocks/` using `packages/ui/` components.
-4. Run `pnpm dev` and use the viewer to compare your blocks against the
+3. Use the `css2tw` workspace (see [packages/css2tw/README.md](packages/css2tw/README.md)) to automatically scaffold a Tailwind configuration and verify pixel-perfect conversion of the prototypes via visual regression testing.
+4. Build blocks under `apps/web/app/blocks/` using `packages/ui/` components.
+5. Run `pnpm dev` and use the viewer to compare your blocks against the
    prototypes.
-5. Iterate until the blocks match the design.
+6. Iterate until the blocks match the design.
 
 ## Scripts
 

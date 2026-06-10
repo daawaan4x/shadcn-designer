@@ -8,6 +8,14 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 Before writing code, architectural changes, or documentation, you **MUST** read [CONTRIBUTING.md](./CONTRIBUTING.md) to understand the required repository-wide contributor practices, coding patterns, and documentation conventions.
 
+## Tailwind Conversion & Visual Regression (`css2tw`)
+
+When working on converting plain HTML/CSS prototypes into Tailwind CSS:
+- Use the `packages/css2tw` workspace (see [packages/css2tw/README.md](packages/css2tw/README.md)). It contains a Playwright test suite for visual regression testing and an auto-scaffolding tool.
+- Run `pnpm --filter @workspace/css2tw run test:visual` to automatically compare original `design/*.html` files against your new `design/*.tw.html` files.
+- The test performs a live in-memory A/B buffer comparison. No manual Playwright baseline snapshots are needed. If the test passes, your Tailwind implementation is considered pixel-perfect.
+- **IMPORTANT**: The visual tests run as asynchronous background tasks. The system will automatically wake you when the test completes. **Do NOT use the `schedule` tool** or poll manually to wait for results.
+
 ## Specialized Agent Capabilities
 
 The repository provides modular skills and craft rules under `.agents/`. Apply the appropriate capability by reading its instruction file when your task matches its description.

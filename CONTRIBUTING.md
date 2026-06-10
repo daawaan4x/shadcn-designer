@@ -12,6 +12,7 @@ mmsu-appui/
 ├── apps/
 │   └── web/                    # Next.js app — the block viewer
 ├── packages/
+│   ├── css2tw/                 # Tailwind conversion tools and visual regression tests
 │   ├── ui/                     # Shared UI component library (shadcn/ui)
 │   ├── eslint-config/          # Shared ESLint configuration
 │   └── typescript-config/      # Shared TypeScript configuration
@@ -59,6 +60,10 @@ The package uses `class-variance-authority` for variant styling, `@base-ui/react
 for headless primitives (Toggle, ToggleGroup, etc.), and `tailwind-merge` for
 class deduplication.
 
+#### `packages/css2tw` — Tailwind conversion tools
+
+An umbrella package for code related to converting plain HTML/CSS into Tailwind. It currently contains a Playwright visual regression test suite that dynamically compares original HTML prototypes in `design/` against their `*.tw.html` equivalents via a live A/B buffer comparison. See [packages/css2tw/README.md](packages/css2tw/README.md) for usage instructions.
+
 #### `design/` — Design reference
 
 Not a workspace—just a folder of design handoff materials (prototype HTML,
@@ -105,11 +110,12 @@ sub-components. This is intentional:
 1. Place design reference files (prototypes, specs, assets) in `design/`.
 2. Read `design/DESIGN.md` and `design/brand-spec.md` for design tokens and
    visual rules.
-3. Create a new block under `apps/web/app/blocks/<block-name>/` with a
+3. Use the `css2tw` package (see [packages/css2tw/README.md](packages/css2tw/README.md)) to automatically scaffold Tailwind configs and visually regression-test your Tailwind HTML against the original design prototypes.
+4. Create a new block under `apps/web/app/blocks/<block-name>/` with a
    `page.tsx` that composes primitives from `packages/ui/`.
-4. Run `pnpm dev` and use the viewer to compare the rendered block against the
+5. Run `pnpm dev` and use the viewer to compare the rendered block against the
    prototype HTML.
-5. Iterate until the block matches the design intent.
+6. Iterate until the block matches the design intent.
 
 ### Key conventions
 

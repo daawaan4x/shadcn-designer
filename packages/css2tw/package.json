@@ -1,0 +1,19 @@
+{
+  "name": "@workspace/css2tw",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Umbrella package for code related to converting CSS to Tailwind, starting with visual regression tests.",
+  "scripts": {
+    "test:visual": "playwright test",
+    "init:tw": "npx --yes tsx scripts/init-tw.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.14.2",
+    "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
+    "http-server": "^14.1.1",
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0"
+  }
+}
