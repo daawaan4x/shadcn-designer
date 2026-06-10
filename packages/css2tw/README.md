@@ -58,3 +58,22 @@ pnpm --filter @workspace/css2tw run init:tw design/file.html
 ```
 
 This will parse all `--var-name: value` lines and print a `<script> tailwind.config = ... </script>` block with the mapped theme tokens, ready to be injected into your `.tw.html` file.
+
+## How it works (The Testing Pipeline)
+
+The `css2tw` testing framework runs an exhaustive, multi-phase verification pipeline in Playwright to guarantee that the Tailwind HTML matches the original CSS perfectly, both statically and interactively.
+
+### Phase 1: Environment Stabilization
+Before taking any measurements, the test injects a global stylesheet (`transition: none !important; animation: none !important`) into both pages. This freezes all animations and transitions, preventing race conditions or misaligned screenshots caused by mid-animation state captures.
+
+### Phase 2: Relative Layout Shift Detection
+Instead of just failing a screenshot, the test performs a mathematical DOM audit. It iterates through every element and calculates its `BoundingClientRect` relative to its parent. This isolates "Root Cause" layout shifts. For example, if a header container shifts down by 50px, all 100 child elements also shift down by 50px. Instead of reporting 100 errors, the pipeline intelligently reports only the header container as the root cause.
+
+### Phase 3: Computed Style Diffing
+The test extracts the `window.getComputedStyle()` for every DOM node in both documents. It filters out absolute layout coordinates (which are covered by Phase 2) and heavily normalizes the remaining CSS (e.g., converting all `rgb()` colors to `oklch()`, stripping invisible borders, and normalizing `rgba(0,0,0,0)` transparent box shadows). It then runs a strict equality check, flagging exact CSS property differences (like `line-height`, `font-size`, `padding`) between the original and Tailwind versions.
+
+### Phase 4: UX & Interactive Audit (CDP)
+Pixel-perfect static views do not guarantee a 1:1 user experience. Using the Chrome DevTools Protocol (CDP), the test programmatically forces `:hover` and `:focus` pseudo-states on all interactive elements (`a`, `button`, `input`, etc.) without dispatching real JavaScript `click` or `mouse` events that might trigger application logic. It then diffs the computed styles of these pseudo-states to ensure interactive states (like hover colors or focus rings) match exactly.
+
+### Phase 5: Pixelmatch Failsafe
+As a final, absolute guarantee, Playwright captures full-page `Buffer` screenshots of both the original and the Tailwind DOM. It runs these buffers through `pixelmatch` with a strict anti-aliasing threshold. If even a single pixel differs, the test outputs a `diff.png` highlighting the exact visual mismatch and fails the run.
