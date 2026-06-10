@@ -4,7 +4,7 @@
   "private": true,
   "description": "Umbrella package for code related to converting CSS to Tailwind, starting with visual regression tests.",
   "scripts": {
-    "test:visual": "playwright test",
+    "test:visual": "node scripts/visual-test.js",
     "init:tw": "npx --yes tsx scripts/init-tw.ts"
   },
   "devDependencies": {
@@ -14,6 +14,7 @@
     "@types/pngjs": "^6.0.5",
     "http-server": "^14.1.1",
     "pixelmatch": "^6.0.0",
-    "pngjs": "^7.0.0"
+    "pngjs": "^7.0.0",
+    "yaml": "^2.9.0"
   }
 }

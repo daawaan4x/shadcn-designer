@@ -115,3 +115,16 @@ cat .agents/craft/<craft-name>.md
 - **`typography-hierarchy-editorial.md`**: Extends `typography.md` + `typography-hierarchy.md`.
 - **`typography-hierarchy.md`**: Shared hierarchy contracts that layer on top of `typography.md`.
 - **`typography.md`**: Universal typography rules that apply on top of any `DESIGN.md`.
+
+## Safe File Editing Policy
+
+To prevent accidental data loss and corrupted files, ALL agents MUST strictly follow this file-handling protocol when modifying any file that **is gitignored or untracked by git** (i.e., has no git safety net):
+
+1. **Create a `tmp/` folder** colocated to the original file.
+2. **Ensure the `tmp/` folder contains a `.gitignore`** containing exactly `*` to prevent backups from being tracked.
+3. **Back up the original file into `tmp/`** before making any changes, using the format:
+   `tmp/<filename>_YYYY-MM-DD_hh-mm-ss.backup.<ext>`
+   (e.g., `design/tmp/kitchen-sink_2026-06-11_14-30-00.backup.tw.html`)
+4. **Work directly on the target file** — edit it in place as normal.
+
+This is your default behavior unless explicitly stated otherwise by the prompter.
